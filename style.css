@@ -1,0 +1,177 @@
+/* General Reset & Dark Theme */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    background-color: #121212;
+    color: white;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* --- Room & Desk Styling --- */
+.scene {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 15vh;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.desk {
+    width: 60%;
+    height: 20px;
+    background: #333;
+    border-radius: 10px;
+    position: relative;
+    border-bottom: 5px solid #1a1a1a;
+}
+
+/* Laptop Styling */
+.laptop {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 80px;
+    background: #2a2a2a;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.laptop:hover {
+    transform: translateX(-50%) scale(1.05);
+}
+
+.screen-glow {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 15px;
+    background: #00ffcc;
+    box-shadow: 0 0 15px #00ffcc;
+    animation: pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; box-shadow: 0 0 10px #00ffcc; }
+    100% { opacity: 1; box-shadow: 0 0 25px #00ffcc; }
+}
+
+.tooltip {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+}
+
+.laptop:hover .tooltip {
+    opacity: 1;
+}
+
+/* --- OS Modal Styling --- */
+#os-modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+#os-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.os-window {
+    width: 80%;
+    max-width: 800px;
+    height: 60vh;
+    background: #1e1e2e;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.9);
+    transition: transform 0.4s ease;
+}
+
+#os-modal.active .os-window {
+    transform: scale(1);
+}
+
+/* Window Top Bar */
+.window-header {
+    background: #282a36;
+    padding: 10px 15px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.red { background: #ff5f56; cursor: pointer; }
+.red:hover { box-shadow: 0 0 8px #ff5f56; }
+.yellow { background: #ffbd2e; }
+.green { background: #27c93f; }
+.title { margin-left: auto; margin-right: auto; color: #6272a4; font-size: 14px; }
+
+/* Grid of Folders */
+.folder-grid {
+    padding: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 30px;
+    overflow-y: auto;
+}
+
+.folder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    font-size: 40px; /* Size of the emoji */
+    transition: transform 0.2s ease;
+}
+
+.folder:hover {
+    transform: translateY(-5px);
+}
+
+.folder span {
+    font-size: 12px;
+    color: #f8f8f2;
+    margin-top: 10px;
+    background: rgba(255,255,255,0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+}
