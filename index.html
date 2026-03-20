@@ -1,498 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Tech Portfolio</title>
-    <style>
-        /*
-        * 1. CSS RESETS & GLOBAL STYLES
-        * - Use standard resets for a clean slate.
-        * - Set a tech-focused dark theme.
-        * - Define a clean, modern font stack.
-        */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        body {
-            background-color: #0d0d10; /* Very dark tech-focused gray */
-            color: #f0f0f2; /* Light off-white for text */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Under Construction</title>
 
-        /*
-        * 2. MAIN LAYOUT
-        * - Create a main container to hold all sections.
-        * - Use Flexbox for a structured, non-scrolling three-column layout.
-        * - Add subtle glows to background.
-        */
-        .portfolio-container {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
 
-        /* Subtle background glow effect */
-        .portfolio-container::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60%;
-            height: 60%;
-            background: radial-gradient(circle, rgba(160, 32, 240, 0.1) 0%, rgba(13, 13, 16, 0) 70%);
-            z-index: -1;
-            filter: blur(50px);
-        }
+body {
+  height: 100vh;
+  background: #0f0f0f;
+  overflow: hidden;
+  color: white;
+}
 
-        /*
-        * 3. LEFT SECTION: LARGE TYPOGRAPHY
-        * - Create a large stylized title text.
-        * - Apply gradients to the "I DO" text for the cyan glow.
-        */
-        .left-section {
-            flex: 0 0 25%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-        }
-        .title-what {
-            font-size: 6rem;
-            font-weight: 900;
-            color: #fff;
-            line-height: 1;
-        }
-        .title-i-do {
-            font-size: 6rem;
-            font-weight: 900;
-            background: linear-gradient(90deg, #1abc9c, #00ffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1;
-            text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-        }
+/* Cursor Glow */
+.cursor {
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(0,255,200,0.25), transparent 60%);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: 0.1s;
+}
 
-        /*
-        * 4. CENTER SECTION: COMPLEX INTERACTIVE CSS ART
-        * - This is the core piece of detailed, shaded CSS art.
-        * - No real 3D, just clever gradients, transforms, and depth.
-        * - Focus on the character, desk, chair, and PC.
-        * - Character is fixed to be a detailed, shaded pseudo-3D avatar.
-        */
-        .center-section {
-            flex: 0 0 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-        
-        .character-wrapper {
-            width: 400px;
-            height: 500px;
-            position: relative;
-            /* Give perspective for pseudo-3D elements like desk legs and monitor */
-            perspective: 1000px;
-        }
+/* Center Content */
+.container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
 
-        /* Detailed CSS Character art with shading for 3D feel */
-        .character {
-            position: absolute;
-            bottom: 60px;
-            left: 20px;
-            width: 150px;
-            height: 250px;
-            z-index: 5;
-        }
-        .cap {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 35px;
-            background: linear-gradient(135deg, #bbb, #999);
-            border-radius: 35px 35px 0 0;
-            z-index: 10;
-        }
-        .face {
-            position: absolute;
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 70px;
-            height: 80px;
-            background: linear-gradient(135deg, #e0a36e, #d19760);
-            border-radius: 35px;
-            z-index: 9;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        .face::before { /* Detailed eye sockets and features */
-            content: '';
-            position: absolute;
-            top: 25px;
-            left: 15px;
-            width: 15px;
-            height: 20px;
-            background: rgba(0,0,0,0.5);
-            border-radius: 50%;
-            box-shadow: 25px 0 0 rgba(0,0,0,0.5);
-        }
-        .face::after { /* Mouth */
-            content: '';
-            position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 25px;
-            height: 10px;
-            background: #d94f31;
-            border-radius: 5px;
-        }
-        .torso {
-            position: absolute;
-            top: 90px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 140px;
-            background: linear-gradient(135deg, #1c1c22, #0a0a0d);
-            border-radius: 50% 50% 10% 10%;
-            z-index: 8;
-        }
-        .hands-typing {
-            position: absolute;
-            top: 200px;
-            left: 35px;
-            width: 80px;
-            height: 40px;
-            z-index: 11;
-        }
-        .hand {
-            width: 20px;
-            height: 20px;
-            background: #e0a36e;
-            border-radius: 50%;
-            position: absolute;
-            animation: type 0.3s infinite alternate;
-        }
-        .hand-left { left: 0; animation-delay: -0.15s; }
-        .hand-right { right: 0; animation-delay: -0.05s; }
-        
-        @keyframes type {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-5px); }
-        }
+/* Animated Title */
+h1 {
+  font-size: 60px;
+  letter-spacing: 3px;
+  background: linear-gradient(90deg, #00ffc3, #00aaff, #ff00ff);
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: glow 3s infinite linear;
+}
 
-        /* Detailed Chair */
-        .chair {
-            position: absolute;
-            bottom: 30px;
-            left: 0;
-            width: 150px;
-            height: 220px;
-            background: linear-gradient(135deg, #fff, #ddd);
-            border-radius: 10% 10% 10% 100%;
-            z-index: 3;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+@keyframes glow {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
 
-        /* Detailed Desk */
-        .desk {
-            position: absolute;
-            bottom: 0;
-            left: 100px;
-            width: 300px;
-            height: 100px;
-            z-index: 4;
-        }
-        .desk-surface {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 15px;
-            background: #fff;
-            border-radius: 5px;
-            z-index: 6;
-            transform: rotateX(20deg); /* Pseudo-3D slant */
-        }
-        .desk-leg {
-            position: absolute;
-            top: 15px;
-            width: 15px;
-            height: 85px;
-            background: #333;
-            z-index: 5;
-            transform: skew(-10deg); /* Angled for depth */
-        }
-        .desk-leg-l { left: 20px; transform: skew(10deg); }
-        .desk-leg-r { right: 20px; }
+/* Typing Effect */
+.typing {
+  margin-top: 20px;
+  font-size: 20px;
+  border-right: 2px solid white;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  animation: typing 4s steps(30, end) forwards, blink 0.7s infinite;
+}
 
-        /* Complex, detailed shaded PC and monitor */
-        .pc-wrapper {
-            position: absolute;
-            top: 150px;
-            right: 0;
-            width: 250px;
-            height: 250px;
-            z-index: 7;
-        }
-        .monitor {
-            width: 180px;
-            height: 130px;
-            background: linear-gradient(135deg, #1c1c22, #0a0a0d);
-            border-radius: 10px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            box-shadow: -15px 0 25px rgba(0,0,0,0.5);
-            transform: rotateY(-15deg); /* Angle for perspective */
-        }
-        .monitor-screen {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            width: 160px;
-            height: 110px;
-            background: linear-gradient(135deg, #ff80ab, #d81b60); /* Pink/fuchsia glow */
-            border-radius: 5px;
-            overflow: hidden;
-            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.4);
-        }
-        .keyboard {
-            width: 120px;
-            height: 20px;
-            background: linear-gradient(135deg, #bbb, #999);
-            border-radius: 5px;
-            position: absolute;
-            bottom: 25px;
-            left: 20px;
-            z-index: 8;
-            transform: rotateX(30deg); /* Slant for perspective */
-        }
+@keyframes typing {
+  to { width: 280px; }
+}
 
-        /*
-        * 5. RIGHT SECTION: FEATURED WORK LIST
-        * - Create a structured list of features.
-        * - Add the bracket pseudo-elements.
-        * - Build a tag cloud with oval, highlightable buttons.
-        */
-        .right-section {
-            flex: 0 0 25%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-        }
-        .bracketed-list {
-            display: flex;
-            flex-direction: column;
-            gap: 50px;
-            width: 100%;
-        }
-        
-        .section-block {
-            position: relative;
-            padding: 20px;
-            border: 1px solid transparent;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
+@keyframes blink {
+  50% { border-color: transparent; }
+}
 
-        /* The specific bracket elements */
-        .bracket-tl, .bracket-tr, .bracket-bl, .bracket-br {
-            position: absolute;
-            font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.5);
-            transition: all 0.3s ease;
-            opacity: 0;
-        }
-        .bracket-tl { top: -10px; left: -10px; }
-        .bracket-tr { top: -10px; right: -10px; }
-        .bracket-bl { bottom: -10px; left: -10px; }
-        .bracket-br { bottom: -10px; right: -10px; }
+/* Floating Particles */
+.particle {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: #00ffc3;
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: float 10s linear infinite;
+}
 
-        .section-block:hover {
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-        .section-block:hover .bracket-tl,
-        .section-block:hover .bracket-tr,
-        .section-block:hover .bracket-bl,
-        .section-block:hover .bracket-br {
-            opacity: 1;
-        }
+@keyframes float {
+  from {
+    transform: translateY(100vh);
+  }
+  to {
+    transform: translateY(-10vh);
+  }
+}
 
-        .section-block h2 {
-            font-size: 2rem;
-            font-weight: 900;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-        .section-block .subtitle {
-            font-size: 0.8rem;
-            color: #556b82;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-        }
-        .section-block .description {
-            font-size: 1rem;
-            color: #8b9eb3;
-            line-height: 1.5;
-            margin-bottom: 30px;
-        }
+/* Footer */
+.footer {
+  position: absolute;
+  bottom: 20px;
+  font-size: 14px;
+  opacity: 0.6;
+}
 
-        /* Tech Stack Tags as oval highlightable buttons */
-        .tag-cloud {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        .tag {
-            border: 1px solid #334155;
-            color: #cbd5e1;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-        .tag:hover {
-            border-color: #f0f0f2;
-            color: #f0f0f2;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255,255,255,0.1);
-        }
-
-    </style>
+</style>
 </head>
+
 <body>
 
-    <div class="portfolio-container">
-        
-        <div class="left-section">
-            <h1 class="title-what">WHAT</h1>
-            <h1 class="title-i-do">I DO</h1>
-        </div>
+<div class="cursor"></div>
 
-        <div class="center-section">
-            <div class="character-wrapper">
-                
-                <div class="character">
-                    <div class="cap"></div>
-                    <div class="face"></div>
-                    <div class="torso"></div>
-                    <div class="hands-typing">
-                        <div class="hand hand-left"></div>
-                        <div class="hand hand-right"></div>
-                    </div>
-                </div>
+<div class="container">
+  <h1>UNDER CONSTRUCTION</h1>
+  <div class="typing">We are building something awesome...</div>
+</div>
 
-                <div class="chair"></div>
-                
-                <div class="desk">
-                    <div class="desk-surface"></div>
-                    <div class="desk-leg desk-leg-l"></div>
-                    <div class="desk-leg desk-leg-r"></div>
-                </div>
+<div class="footer">© JRV Studio</div>
 
-                <div class="pc-wrapper">
-                    <div class="monitor">
-                        <div class="monitor-screen"></div>
-                    </div>
-                    <div class="keyboard"></div>
-                </div>
-            </div>
-        </div>
+<script>
 
-        <div class="right-section">
-            <div class="bracketed-list">
-                
-                <div class="section-block">
-                    <div class="bracket-tl">⌜</div>
-                    <div class="bracket-tr">⌝</div>
-                    <div class="bracket-bl">⌞</div>
-                    <div class="bracket-br">⌟</div>
+/* Cursor Follow Effect */
+const cursor = document.querySelector(".cursor");
 
-                    <h2>FRONTEND</h2>
-                    <p class="subtitle">Building interactive UIs</p>
-                    <p class="description">Crafting performant and responsive mobile applications. From building dynamic UIs to compiling and signing production-ready AAB files.</p>
-                    
-                    <div class="tag-cloud">
-                        <span class="tag">Flutter</span>
-                        <span class="tag">Dart</span>
-                        <span class="tag">UI/UX</span>
-                    </div>
-                </div>
+document.addEventListener("mousemove", (e) => {
+  cursor.style.left = e.clientX + "px";
+  cursor.style.top = e.clientY + "px";
+});
 
-                <div class="section-block">
-                    <div class="bracket-tl">⌜</div>
-                    <div class="bracket-tr">⌝</div>
-                    <div class="bracket-bl">⌞</div>
-                    <div class="bracket-br">⌟</div>
+/* Generate Particles */
+for (let i = 0; i < 40; i++) {
+  let particle = document.createElement("div");
+  particle.classList.add("particle");
 
-                    <h2>BACKEND</h2>
-                    <p class="subtitle">Scalable Server Architecture</p>
-                    <p class="description">Designing robust automated logic and dynamic web scripts. Building everything from QR-based attendance APIs to fully featured Telegram communities.</p>
-                    
-                    <div class="tag-cloud">
-                        <span class="tag">Python</span>
-                        <span class="tag">PHP</span>
-                        <span class="tag">C</span>
-                        <span class="tag">Telegram API</span>
-                    </div>
-                </div>
+  particle.style.left = Math.random() * 100 + "vw";
+  particle.style.animationDuration = (5 + Math.random() * 5) + "s";
+  particle.style.opacity = Math.random();
 
-            </div>
-        </div>
+  document.body.appendChild(particle);
+}
 
-    </div>
+</script>
 
-    <script>
-        // Optional: Log typing state to console on mouse movement over keyboard area
-        const keyboardArea = document.querySelector('.keyboard');
-        const characterWrapper = document.querySelector('.character-wrapper');
-
-        keyboardArea.addEventListener('mouseenter', () => {
-            console.log('--- USER STARTING TO TYPE ---');
-            // Simulate typing speed up / screen brighten
-            document.querySelector('.monitor-screen').style.boxShadow = 'inset 0 0 40px rgba(255, 255, 255, 0.6)';
-        });
-        
-        keyboardArea.addEventListener('mouseleave', () => {
-            console.log('--- USER STOPPING TYPING ---');
-            document.querySelector('.monitor-screen').style.boxShadow = 'inset 0 0 20px rgba(255, 255, 255, 0.4)';
-        });
-        
-        // Let's add the background glow based on mouse position to complete the experience from `image_1.png`
-        document.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth - 0.5) * 10;
-            const y = (e.clientY / window.innerHeight - 0.5) * 10;
-            
-            // Subtle character move based on mouse
-            document.querySelector('.character').style.transform = `translate(${x}px, ${y}px)`;
-            
-            // Move background glow
-            document.querySelector('.portfolio-container').style.setProperty('--mouse-x', `${e.clientX}px`);
-            document.querySelector('.portfolio-container').style.setProperty('--mouse-y', `${e.clientY}px`);
-        });
-
-    </script>
 </body>
 </html>
