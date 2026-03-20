@@ -13,34 +13,64 @@
             font-family: 'Courier New', Courier, monospace;
         }
 
+        /* CSS Variables to hold our mouse position. 
+           JavaScript will update these automatically! 
+        */
+        :root {
+            --mouse-x: 0;
+            --mouse-y: 0;
+        }
+
         body, html {
             width: 100vw;
             height: 100vh;
-            background-color: #1a1829; /* Dark purple room wall */
+            background-color: #12101c; /* Darker, richer purple room */
             color: white;
-            overflow: hidden; /* Prevents scrollbars */
+            overflow: hidden; 
         }
 
         /* --- Room Scene --- */
         #room-scene {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            border-bottom: 25px solid #0f0d1a; /* The Floor */
+            transition: opacity 0.5s ease;
+            border-bottom: 25px solid #08070d; 
+            /* Subtle breathing animation for the whole room */
+            animation: roomBreathe 6s infinite alternate ease-in-out;
         }
 
-        /* Wall Decorations */
+        @keyframes roomBreathe {
+            0% { box-shadow: inset 0 0 50px rgba(0,0,0,0.8); }
+            100% { box-shadow: inset 0 0 100px rgba(0,0,0,0.9); }
+        }
+
+        /* Neon Wall Strip */
+        .neon-strip {
+            position: absolute;
+            top: 30%;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #9d00ff;
+            box-shadow: 0 0 15px #9d00ff, 0 0 30px #9d00ff;
+            /* Moves very little (Background) */
+            transform: translateY(calc(var(--mouse-y) * -5px));
+        }
+
+        /* Wall Decorations (Background Layer) */
         .window {
             position: absolute;
             top: 10%;
             left: 15%;
             width: 150px;
             height: 200px;
-            background: #0b1021;
-            border: 8px solid #2a2742;
+            background: #050814;
+            border: 8px solid #1a1829;
             border-radius: 10px;
-            box-shadow: inset 0 0 20px #000;
+            box-shadow: inset 0 0 30px #000, 0 10px 20px rgba(0,0,0,0.5);
             overflow: hidden;
+            /* Moves slowly opposite to mouse */
+            transform: translate(calc(var(--mouse-x) * -10px), calc(var(--mouse-y) * -10px));
         }
 
         .moon {
@@ -49,9 +79,9 @@
             right: 20px;
             width: 40px;
             height: 40px;
-            background: #f6f1d5;
+            background: #e2e8f0;
             border-radius: 50%;
-            box-shadow: 0 0 15px #f6f1d5;
+            box-shadow: 0 0 20px #e2e8f0;
         }
 
         .poster {
@@ -67,42 +97,47 @@
             text-align: center;
             padding-top: 50px;
             border-radius: 5px;
-            transform: rotate(4deg);
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.6);
+            /* Moves slightly faster than window */
+            transform: translate(calc(var(--mouse-x) * -15px), calc(var(--mouse-y) * -15px)) rotate(4deg);
         }
 
-        /* --- Workspace Area (Locked Dimensions) --- */
+        /* --- Workspace Area (Midground & Foreground) --- */
         .workspace {
             position: absolute;
-            bottom: 0px; /* Locked to the floor */
+            bottom: 0px; 
             left: 50%;
+            /* Base centering */
             transform: translateX(-50%);
             width: 600px;
-            height: 450px; /* Strict height prevents collapsing */
+            height: 450px; 
         }
 
-        /* Gaming Chair (Back Layer) */
+        /* Gaming Chair (Midground) */
         .chair {
             position: absolute;
             bottom: 20px;
             left: 50%;
-            transform: translateX(-50%);
-            width: 110px;
-            height: 220px;
-            background: #222;
+            width: 120px;
+            height: 230px;
+            background: #111;
             border-radius: 20px 20px 0 0;
             z-index: 1;
-            border-left: 5px solid #00e5ff;
-            border-right: 5px solid #00e5ff;
+            border-left: 4px solid #00e5ff;
+            border-right: 4px solid #9d00ff; /* RGB Gamer Look */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+            /* Moves with the mouse */
+            transform: translateX(-50%) translate(calc(var(--mouse-x) * 15px), calc(var(--mouse-y) * 15px));
         }
 
-        /* Cartoon Character (Middle Layer) */
+        /* Cartoon Character (Midground) */
         .character {
             position: absolute;
             bottom: 100px;
             left: 50%;
-            transform: translateX(-50%);
             z-index: 2; 
+            /* Moves slightly faster than chair */
+            transform: translateX(-50%) translate(calc(var(--mouse-x) * 25px), calc(var(--mouse-y) * 20px));
         }
 
         .head {
@@ -113,7 +148,7 @@
             position: absolute;
             bottom: 140px;
             left: -35px;
-            box-shadow: inset -5px -5px 0 rgba(0,0,0,0.1);
+            box-shadow: inset -10px -10px 0 rgba(0,0,0,0.2);
         }
 
         .body {
@@ -124,12 +159,13 @@
             position: absolute;
             bottom: 20px;
             left: -45px;
+            box-shadow: inset -10px 0 0 rgba(0,0,0,0.1);
         }
 
         .arm {
             width: 25px;
             height: 80px;
-            background: #ff5f56;
+            background: #e04a42; /* Slightly darker for depth */
             border-radius: 15px;
             position: absolute;
             bottom: 40px;
@@ -138,54 +174,59 @@
 
         .left-arm {
             left: -50px;
-            animation: typeLeft 0.4s infinite alternate;
+            animation: typeLeft 0.3s infinite alternate;
         }
 
         .right-arm {
             right: -50px;
-            animation: typeRight 0.3s infinite alternate;
+            animation: typeRight 0.25s infinite alternate;
         }
 
         @keyframes typeLeft {
             0% { transform: rotate(25deg); }
-            100% { transform: rotate(40deg); }
+            100% { transform: rotate(45deg); }
         }
 
         @keyframes typeRight {
             0% { transform: rotate(-25deg); }
-            100% { transform: rotate(-40deg); }
+            100% { transform: rotate(-45deg); }
         }
 
-        /* Desk (Front Layer) */
+        /* Desk (Foreground) */
         .desk {
             position: absolute;
             bottom: 40px;
             width: 100%;
             height: 35px;
-            background: #4a3b32; 
+            background: #2a211b; 
             border-radius: 5px;
-            border-bottom: 8px solid #2e241e;
+            border-bottom: 8px solid #140f0c;
             z-index: 3;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.7);
+            /* Moves fast (Close to screen) */
+            transform: translate(calc(var(--mouse-x) * 40px), calc(var(--mouse-y) * 30px));
         }
 
-        /* Laptop (Top Front Layer) */
+        /* Laptop (Extreme Foreground) */
         .laptop {
             position: absolute;
-            bottom: 75px; /* Sits exactly on the desk */
+            bottom: 75px; 
             left: 50%;
-            transform: translateX(-50%);
-            width: 150px;
-            height: 95px;
-            background: #1e1e1e;
+            width: 160px;
+            height: 100px;
+            background: #1a1a1a;
             border-radius: 8px 8px 0 0;
             cursor: pointer;
-            transition: transform 0.2s ease;
             z-index: 4;
             border: 2px solid #333;
+            border-bottom: 4px solid #555;
+            /* Moves the fastest to create extreme depth */
+            transform: translateX(-50%) translate(calc(var(--mouse-x) * 55px), calc(var(--mouse-y) * 45px));
+            transition: filter 0.2s ease;
         }
 
         .laptop:hover {
-            transform: translateX(-50%) scale(1.05);
+            filter: brightness(1.2);
         }
 
         .laptop-logo {
@@ -193,49 +234,55 @@
             bottom: 5px;
             width: 100%;
             text-align: center;
-            font-size: 12px;
-            color: #777;
-            font-weight: bold;
+            font-size: 14px;
+            color: #888;
+            font-weight: 900;
+            letter-spacing: 2px;
         }
 
+        /* Powerful Screen Glow */
         .screen-glow {
             position: absolute;
             top: 5px; left: 5px; right: 5px; bottom: 25px;
             background: #00e5ff;
-            box-shadow: 0 0 25px rgba(0, 229, 255, 0.5);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.6), inset 0 0 10px #fff;
             animation: pulse 2s infinite alternate;
         }
 
         @keyframes pulse {
             0% { opacity: 0.8; box-shadow: 0 0 15px rgba(0, 229, 255, 0.4); }
-            100% { opacity: 1; box-shadow: 0 0 30px rgba(0, 229, 255, 0.8); }
+            100% { opacity: 1; box-shadow: 0 0 40px rgba(0, 229, 255, 0.9); }
         }
 
         .tooltip {
             position: absolute;
-            top: -50px;
+            top: -55px;
             left: 50%;
             transform: translateX(-50%);
-            background: white;
-            color: black;
-            padding: 8px 12px;
+            background: #00e5ff;
+            color: #000;
+            padding: 8px 15px;
             border-radius: 5px;
             font-size: 14px;
             font-weight: bold;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.3s ease, transform 0.3s ease;
             white-space: nowrap;
             pointer-events: none;
+            box-shadow: 0 5px 15px rgba(0, 229, 255, 0.4);
         }
 
-        .laptop:hover .tooltip { opacity: 1; }
+        .laptop:hover .tooltip { 
+            opacity: 1; 
+            transform: translateX(-50%) translateY(-5px);
+        }
 
         /* --- OS Modal Styling --- */
         #os-modal {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -256,36 +303,37 @@
             height: 60vh;
             background: #1e1e2e;
             border-radius: 12px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.1);
             display: flex;
             flex-direction: column;
             transform: scale(0.9);
-            transition: transform 0.4s ease;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         #os-modal.active .os-window { transform: scale(1); }
 
         .window-header {
             background: #282a36;
-            padding: 10px 15px;
+            padding: 12px 15px;
             border-radius: 12px 12px 0 0;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            border-bottom: 1px solid #191a21;
         }
 
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .red { background: #ff5f56; cursor: pointer; }
-        .red:hover { box-shadow: 0 0 8px #ff5f56; }
+        .dot { width: 14px; height: 14px; border-radius: 50%; }
+        .red { background: #ff5f56; cursor: pointer; transition: 0.2s; }
+        .red:hover { box-shadow: 0 0 10px #ff5f56; transform: scale(1.1); }
         .yellow { background: #ffbd2e; }
         .green { background: #27c93f; }
-        .title { margin-left: auto; margin-right: auto; color: #6272a4; font-size: 14px; }
+        .title { margin-left: auto; margin-right: auto; color: #8be9fd; font-size: 15px; font-weight: bold; font-family: sans-serif; }
 
         .folder-grid {
-            padding: 30px;
+            padding: 40px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 40px;
             overflow-y: auto;
         }
 
@@ -295,24 +343,31 @@
             align-items: center;
             text-align: center;
             cursor: pointer;
-            font-size: 40px;
-            transition: transform 0.2s ease;
+            font-size: 50px;
+            transition: transform 0.2s ease, filter 0.2s ease;
         }
 
-        .folder:hover { transform: translateY(-5px); }
+        .folder:hover { 
+            transform: translateY(-8px) scale(1.05); 
+            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.4));
+        }
+
         .folder span {
-            font-size: 12px;
+            font-size: 13px;
             color: #f8f8f2;
-            margin-top: 10px;
-            background: rgba(255,255,255,0.1);
-            padding: 4px 8px;
-            border-radius: 4px;
+            margin-top: 12px;
+            background: rgba(255,255,255,0.05);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-family: sans-serif;
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
 
     <div id="room-scene">
+        <div class="neon-strip"></div>
         <div class="window"><div class="moon"></div></div>
         <div class="poster">Logic<br>Lads ⚡</div>
 
@@ -328,7 +383,7 @@
             <div class="laptop" id="laptop-trigger">
                 <div class="screen-glow"></div>
                 <div class="laptop-logo">TUF</div>
-                <div class="tooltip">Enter Workspace</div>
+                <div class="tooltip">Access Files</div>
             </div>
         </div>
     </div>
@@ -336,10 +391,10 @@
     <div id="os-modal">
         <div class="os-window">
             <div class="window-header">
-                <div class="dot red" id="close-btn"></div>
+                <div class="dot red" id="close-btn" title="Close Window"></div>
                 <div class="dot yellow"></div>
                 <div class="dot green"></div>
-                <div class="title">Developer_OS</div>
+                <div class="title">LDCE_Developer_OS</div>
             </div>
             
             <div class="folder-grid">
@@ -355,22 +410,28 @@
     </div>
 
     <script>
-        // The JavaScript to handle the clicks
+        // --- 1. The Parallax Mouse Tracking Logic ---
+        document.addEventListener('mousemove', (e) => {
+            // Calculate a number between -1 and 1 based on mouse position
+            const xOffset = (e.clientX / window.innerWidth - 0.5) * 2;
+            const yOffset = (e.clientY / window.innerHeight - 0.5) * 2;
+
+            // Send those numbers to our CSS variables!
+            document.documentElement.style.setProperty('--mouse-x', xOffset);
+            document.documentElement.style.setProperty('--mouse-y', yOffset);
+        });
+
+        // --- 2. The Pop-up Window Logic ---
         const laptop = document.getElementById('laptop-trigger');
         const osModal = document.getElementById('os-modal');
         const closeBtn = document.getElementById('close-btn');
-        const roomScene = document.getElementById('room-scene');
 
         laptop.addEventListener('click', () => {
             osModal.classList.add('active');
-            roomScene.style.transform = 'scale(0.95)';
-            roomScene.style.opacity = '0.5';
         });
 
         closeBtn.addEventListener('click', () => {
             osModal.classList.remove('active');
-            roomScene.style.transform = 'scale(1)';
-            roomScene.style.opacity = '1';
         });
     </script>
 </body>
