@@ -20,7 +20,7 @@ body {
   color: white;
 }
 
-/* Cursor Glow */
+/* Cursor Glow (Disable on mobile) */
 .cursor {
   position: fixed;
   width: 300px;
@@ -32,6 +32,13 @@ body {
   transition: 0.1s;
 }
 
+/* Hide cursor on touch devices */
+@media (hover: none) {
+  .cursor {
+    display: none;
+  }
+}
+
 /* Center Content */
 .container {
   height: 100%;
@@ -40,11 +47,12 @@ body {
   align-items: center;
   flex-direction: column;
   text-align: center;
+  padding: 20px;
 }
 
-/* Animated Title */
+/* Responsive Title */
 h1 {
-  font-size: 60px;
+  font-size: clamp(28px, 6vw, 70px);
   letter-spacing: 3px;
   background: linear-gradient(90deg, #00ffc3, #00aaff, #ff00ff);
   -webkit-background-clip: text;
@@ -57,19 +65,20 @@ h1 {
   100% { filter: hue-rotate(360deg); }
 }
 
-/* Typing Effect */
+/* Typing Effect (Responsive) */
 .typing {
-  margin-top: 20px;
-  font-size: 20px;
+  margin-top: 15px;
+  font-size: clamp(14px, 3vw, 22px);
   border-right: 2px solid white;
   white-space: nowrap;
   overflow: hidden;
   width: 0;
+  max-width: 90vw;
   animation: typing 4s steps(30, end) forwards, blink 0.7s infinite;
 }
 
 @keyframes typing {
-  to { width: 280px; }
+  to { width: 100%; }
 }
 
 @keyframes blink {
@@ -79,29 +88,27 @@ h1 {
 /* Floating Particles */
 .particle {
   position: absolute;
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
   background: #00ffc3;
   border-radius: 50%;
   opacity: 0.6;
-  animation: float 10s linear infinite;
+  animation: float linear infinite;
 }
 
 @keyframes float {
-  from {
-    transform: translateY(100vh);
-  }
-  to {
-    transform: translateY(-10vh);
-  }
+  from { transform: translateY(100vh); }
+  to { transform: translateY(-10vh); }
 }
 
 /* Footer */
 .footer {
   position: absolute;
-  bottom: 20px;
-  font-size: 14px;
+  bottom: 15px;
+  font-size: clamp(10px, 2vw, 14px);
   opacity: 0.6;
+  text-align: center;
+  width: 100%;
 }
 
 </style>
@@ -120,16 +127,20 @@ h1 {
 
 <script>
 
-/* Cursor Follow Effect */
-const cursor = document.querySelector(".cursor");
+/* Cursor Follow (only desktop) */
+if (window.matchMedia("(hover: hover)").matches) {
+  const cursor = document.querySelector(".cursor");
 
-document.addEventListener("mousemove", (e) => {
-  cursor.style.left = e.clientX + "px";
-  cursor.style.top = e.clientY + "px";
-});
+  document.addEventListener("mousemove", (e) => {
+    cursor.style.left = e.clientX + "px";
+    cursor.style.top = e.clientY + "px";
+  });
+}
 
-/* Generate Particles */
-for (let i = 0; i < 40; i++) {
+/* Optimized Particles (less on mobile) */
+let particleCount = window.innerWidth < 768 ? 20 : 40;
+
+for (let i = 0; i < particleCount; i++) {
   let particle = document.createElement("div");
   particle.classList.add("particle");
 
