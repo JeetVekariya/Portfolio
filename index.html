@@ -3,436 +3,308 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Workspace</title>
+    <title>What I Do - Portfolio</title>
     <style>
-        /* General Reset & Bulletproof Sizing */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
-        /* CSS Variables to hold our mouse position. 
-           JavaScript will update these automatically! 
-        */
-        :root {
-            --mouse-x: 0;
-            --mouse-y: 0;
-        }
-
-        body, html {
-            width: 100vw;
-            height: 100vh;
-            background-color: #12101c; /* Darker, richer purple room */
+        body {
+            background-color: #0b0f19; /* Deep sleek navy/black */
             color: white;
-            overflow: hidden; 
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
         }
 
-        /* --- Room Scene --- */
-        #room-scene {
+        /* --- Main Layout Grid --- */
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr 1fr;
+            gap: 20px;
+            width: 90%;
+            max-width: 1400px;
+            align-items: center;
+        }
+
+        /* --- Column 1: Typography --- */
+        .title-section h1 {
+            font-size: 5rem;
+            line-height: 1.1;
+            font-weight: 900;
+            letter-spacing: -2px;
+        }
+
+        .title-section .highlight {
+            color: #00e5ff; /* Cyan glow */
+            text-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+        }
+
+        /* --- Column 2: CSS Art Workspace --- */
+        .workspace-art {
+            position: relative;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        /* Desk & Monitor */
+        .desk {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            transition: opacity 0.5s ease;
-            border-bottom: 25px solid #08070d; 
-            /* Subtle breathing animation for the whole room */
-            animation: roomBreathe 6s infinite alternate ease-in-out;
-        }
-
-        @keyframes roomBreathe {
-            0% { box-shadow: inset 0 0 50px rgba(0,0,0,0.8); }
-            100% { box-shadow: inset 0 0 100px rgba(0,0,0,0.9); }
-        }
-
-        /* Neon Wall Strip */
-        .neon-strip {
-            position: absolute;
-            top: 30%;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: #9d00ff;
-            box-shadow: 0 0 15px #9d00ff, 0 0 30px #9d00ff;
-            /* Moves very little (Background) */
-            transform: translateY(calc(var(--mouse-y) * -5px));
-        }
-
-        /* Wall Decorations (Background Layer) */
-        .window {
-            position: absolute;
-            top: 10%;
-            left: 15%;
-            width: 150px;
-            height: 200px;
-            background: #050814;
-            border: 8px solid #1a1829;
-            border-radius: 10px;
-            box-shadow: inset 0 0 30px #000, 0 10px 20px rgba(0,0,0,0.5);
-            overflow: hidden;
-            /* Moves slowly opposite to mouse */
-            transform: translate(calc(var(--mouse-x) * -10px), calc(var(--mouse-y) * -10px));
-        }
-
-        .moon {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
+            bottom: 60px;
+            width: 350px;
+            height: 15px;
             background: #e2e8f0;
-            border-radius: 50%;
-            box-shadow: 0 0 20px #e2e8f0;
-        }
-
-        .poster {
-            position: absolute;
-            top: 15%;
-            right: 20%;
-            width: 120px;
-            height: 160px;
-            background: #ffbd2e;
-            color: #1a1829;
-            font-weight: bold;
-            font-size: 18px;
-            text-align: center;
-            padding-top: 50px;
             border-radius: 5px;
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.6);
-            /* Moves slightly faster than window */
-            transform: translate(calc(var(--mouse-x) * -15px), calc(var(--mouse-y) * -15px)) rotate(4deg);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.8);
+            z-index: 3;
+            transform: perspective(600px) rotateX(20deg);
         }
 
-        /* --- Workspace Area (Midground & Foreground) --- */
-        .workspace {
+        .desk-leg {
             position: absolute;
-            bottom: 0px; 
-            left: 50%;
-            /* Base centering */
-            transform: translateX(-50%);
-            width: 600px;
-            height: 450px; 
+            bottom: 0;
+            width: 15px;
+            height: 60px;
+            background: #333;
+            z-index: 2;
         }
+        .leg-left { left: 40px; }
+        .leg-right { right: 40px; }
 
-        /* Gaming Chair (Midground) */
-        .chair {
+        .monitor {
             position: absolute;
-            bottom: 20px;
-            left: 50%;
-            width: 120px;
-            height: 230px;
-            background: #111;
-            border-radius: 20px 20px 0 0;
-            z-index: 1;
-            border-left: 4px solid #00e5ff;
-            border-right: 4px solid #9d00ff; /* RGB Gamer Look */
-            box-shadow: 0 10px 20px rgba(0,0,0,0.8);
-            /* Moves with the mouse */
-            transform: translateX(-50%) translate(calc(var(--mouse-x) * 15px), calc(var(--mouse-y) * 15px));
+            bottom: 70px;
+            right: 50px;
+            width: 140px;
+            height: 100px;
+            background: #ff4d85; /* Pink glow screen */
+            border: 4px solid #fff;
+            border-radius: 8px;
+            z-index: 4;
+            box-shadow: -20px 0 40px rgba(255, 77, 133, 0.4), inset 0 0 20px #ff80ab;
+            transform: perspective(600px) rotateY(-15deg);
         }
 
-        /* Cartoon Character (Midground) */
+        .monitor-stand {
+            position: absolute;
+            bottom: 70px;
+            right: 115px;
+            width: 10px;
+            height: 30px;
+            background: #fff;
+            z-index: 3;
+        }
+
+        /* Character */
         .character {
             position: absolute;
-            bottom: 100px;
-            left: 50%;
-            z-index: 2; 
-            /* Moves slightly faster than chair */
-            transform: translateX(-50%) translate(calc(var(--mouse-x) * 25px), calc(var(--mouse-y) * 20px));
+            bottom: 80px;
+            left: 80px;
+            z-index: 2;
         }
 
         .head {
-            width: 70px;
-            height: 80px;
+            width: 70px; height: 80px;
             background: #ffcda5; 
             border-radius: 40%;
             position: absolute;
-            bottom: 140px;
-            left: -35px;
-            box-shadow: inset -10px -10px 0 rgba(0,0,0,0.2);
+            bottom: 140px; left: 10px;
+        }
+
+        .cap {
+            width: 72px; height: 35px;
+            background: #ddd;
+            border-radius: 35px 35px 0 0;
+            position: absolute;
+            bottom: 200px; left: 9px;
+            border-bottom: 4px solid #555;
         }
 
         .body {
-            width: 90px;
-            height: 130px;
-            background: #ff5f56; 
+            width: 90px; height: 130px;
+            background: #222; /* Dark hoodie */
             border-radius: 40px 40px 10px 10px;
             position: absolute;
-            bottom: 20px;
-            left: -45px;
-            box-shadow: inset -10px 0 0 rgba(0,0,0,0.1);
+            bottom: 20px; left: 0;
+            box-shadow: inset -15px 0 30px rgba(255, 77, 133, 0.3); /* Pink light reflection */
         }
 
         .arm {
-            width: 25px;
-            height: 80px;
-            background: #e04a42; /* Slightly darker for depth */
+            width: 25px; height: 80px;
+            background: #1a1a1a;
             border-radius: 15px;
             position: absolute;
-            bottom: 40px;
+            bottom: 50px; left: 60px;
             transform-origin: top center;
+            transform: rotate(45deg);
+            z-index: 5;
         }
 
-        .left-arm {
-            left: -50px;
-            animation: typeLeft 0.3s infinite alternate;
-        }
-
-        .right-arm {
-            right: -50px;
-            animation: typeRight 0.25s infinite alternate;
-        }
-
-        @keyframes typeLeft {
-            0% { transform: rotate(25deg); }
-            100% { transform: rotate(45deg); }
-        }
-
-        @keyframes typeRight {
-            0% { transform: rotate(-25deg); }
-            100% { transform: rotate(-45deg); }
-        }
-
-        /* Desk (Foreground) */
-        .desk {
-            position: absolute;
-            bottom: 40px;
-            width: 100%;
-            height: 35px;
-            background: #2a211b; 
-            border-radius: 5px;
-            border-bottom: 8px solid #140f0c;
-            z-index: 3;
-            box-shadow: 0 20px 30px rgba(0,0,0,0.7);
-            /* Moves fast (Close to screen) */
-            transform: translate(calc(var(--mouse-x) * 40px), calc(var(--mouse-y) * 30px));
-        }
-
-        /* Laptop (Extreme Foreground) */
-        .laptop {
-            position: absolute;
-            bottom: 75px; 
-            left: 50%;
-            width: 160px;
-            height: 100px;
-            background: #1a1a1a;
-            border-radius: 8px 8px 0 0;
-            cursor: pointer;
-            z-index: 4;
-            border: 2px solid #333;
-            border-bottom: 4px solid #555;
-            /* Moves the fastest to create extreme depth */
-            transform: translateX(-50%) translate(calc(var(--mouse-x) * 55px), calc(var(--mouse-y) * 45px));
-            transition: filter 0.2s ease;
-        }
-
-        .laptop:hover {
-            filter: brightness(1.2);
-        }
-
-        .laptop-logo {
-            position: absolute;
-            bottom: 5px;
-            width: 100%;
-            text-align: center;
-            font-size: 14px;
-            color: #888;
-            font-weight: 900;
-            letter-spacing: 2px;
-        }
-
-        /* Powerful Screen Glow */
-        .screen-glow {
-            position: absolute;
-            top: 5px; left: 5px; right: 5px; bottom: 25px;
-            background: #00e5ff;
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.6), inset 0 0 10px #fff;
-            animation: pulse 2s infinite alternate;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.8; box-shadow: 0 0 15px rgba(0, 229, 255, 0.4); }
-            100% { opacity: 1; box-shadow: 0 0 40px rgba(0, 229, 255, 0.9); }
-        }
-
-        .tooltip {
-            position: absolute;
-            top: -55px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #00e5ff;
-            color: #000;
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-size: 14px;
-            font-weight: bold;
-            opacity: 0;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            white-space: nowrap;
-            pointer-events: none;
-            box-shadow: 0 5px 15px rgba(0, 229, 255, 0.4);
-        }
-
-        .laptop:hover .tooltip { 
-            opacity: 1; 
-            transform: translateX(-50%) translateY(-5px);
-        }
-
-        /* --- OS Modal Styling --- */
-        #os-modal {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-            z-index: 100;
-        }
-
-        #os-modal.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .os-window {
-            width: 80%;
-            max-width: 800px;
-            height: 60vh;
-            background: #1e1e2e;
-            border-radius: 12px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.1);
+        /* --- Column 3: Feature Cards --- */
+        .cards-section {
             display: flex;
             flex-direction: column;
-            transform: scale(0.9);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        #os-modal.active .os-window { transform: scale(1); }
-
-        .window-header {
-            background: #282a36;
-            padding: 12px 15px;
-            border-radius: 12px 12px 0 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid #191a21;
-        }
-
-        .dot { width: 14px; height: 14px; border-radius: 50%; }
-        .red { background: #ff5f56; cursor: pointer; transition: 0.2s; }
-        .red:hover { box-shadow: 0 0 10px #ff5f56; transform: scale(1.1); }
-        .yellow { background: #ffbd2e; }
-        .green { background: #27c93f; }
-        .title { margin-left: auto; margin-right: auto; color: #8be9fd; font-size: 15px; font-weight: bold; font-family: sans-serif; }
-
-        .folder-grid {
-            padding: 40px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
             gap: 40px;
-            overflow-y: auto;
         }
 
-        .folder {
+        .feature-card {
+            position: relative;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.02);
+            transition: background 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        /* The Cyberpunk Corner Brackets */
+        .feature-card::before, 
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-color: rgba(255, 255, 255, 0.5);
+            border-style: solid;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card::before {
+            top: 0; left: 0;
+            border-width: 2px 0 0 2px; /* Top and Left */
+        }
+
+        .feature-card::after {
+            bottom: 0; left: 0;
+            border-width: 0 0 2px 2px; /* Bottom and Left */
+        }
+
+        .feature-card:hover::before,
+        .feature-card:hover::after {
+            border-color: #fff;
+            width: 20px;
+            height: 20px;
+            box-shadow: -5px 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Card Typography */
+        .feature-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .feature-card h4 {
+            color: #556b82;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #8b9eb3;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* Skill Pills */
+        .tags {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            cursor: pointer;
-            font-size: 50px;
-            transition: transform 0.2s ease, filter 0.2s ease;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .folder:hover { 
-            transform: translateY(-8px) scale(1.05); 
-            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.4));
+        .tag {
+            border: 1px solid #334155;
+            color: #cbd5e1;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: rgba(0,0,0,0.3);
+            transition: border-color 0.2s;
         }
 
-        .folder span {
-            font-size: 13px;
-            color: #f8f8f2;
-            margin-top: 12px;
-            background: rgba(255,255,255,0.05);
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-family: sans-serif;
-            font-weight: 500;
+        .tag:hover {
+            border-color: #00e5ff;
+            color: #fff;
+        }
+
+        /* Responsive Stacking for smaller screens */
+        @media (max-width: 1000px) {
+            .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 50px;
+                padding: 40px 0;
+            }
+            .feature-card::before { left: 0; right: auto; }
+            .feature-card::after { right: 0; left: auto; border-width: 0 2px 2px 0; }
+            .tags { justify-content: center; }
         }
     </style>
 </head>
 <body>
 
-    <div id="room-scene">
-        <div class="neon-strip"></div>
-        <div class="window"><div class="moon"></div></div>
-        <div class="poster">Logic<br>Lads ⚡</div>
+    <div class="container">
+        
+        <div class="title-section">
+            <h1>WHAT<br><span class="highlight">I DO</span></h1>
+        </div>
 
-        <div class="workspace">
-            <div class="chair"></div>
+        <div class="workspace-art">
             <div class="character">
+                <div class="cap"></div>
                 <div class="head"></div>
                 <div class="body"></div>
-                <div class="arm left-arm"></div>
-                <div class="arm right-arm"></div>
-            </div>
-            <div class="desk"></div>
-            <div class="laptop" id="laptop-trigger">
-                <div class="screen-glow"></div>
-                <div class="laptop-logo">TUF</div>
-                <div class="tooltip">Access Files</div>
-            </div>
-        </div>
-    </div>
-
-    <div id="os-modal">
-        <div class="os-window">
-            <div class="window-header">
-                <div class="dot red" id="close-btn" title="Close Window"></div>
-                <div class="dot yellow"></div>
-                <div class="dot green"></div>
-                <div class="title">LDCE_Developer_OS</div>
+                <div class="arm"></div>
             </div>
             
-            <div class="folder-grid">
-                <div class="folder">📁<span>Jarvis_Bot</span></div>
-                <div class="folder">📁<span>QR_Attendance</span></div>
-                <div class="folder">📁<span>Call_Handler</span></div>
-                <div class="folder">📁<span>Set_Payment_QR</span></div>
-                <div class="folder">📁<span>Logic_Lads</span></div>
-                <div class="folder">📁<span>PHP_Scripts</span></div>
-                <div class="folder">📁<span>C_Programs</span></div>
-            </div>
+            <div class="desk"></div>
+            <div class="desk-leg leg-left"></div>
+            <div class="desk-leg leg-right"></div>
+            
+            <div class="monitor-stand"></div>
+            <div class="monitor"></div>
         </div>
+
+        <div class="cards-section">
+            
+            <div class="feature-card">
+                <h2>MOBILE APPS</h2>
+                <h4>Building Cross-Platform</h4>
+                <p>Crafting performant and responsive mobile applications. From building dynamic UIs to compiling and signing production-ready AAB files.</p>
+                <div class="tags">
+                    <span class="tag">Flutter</span>
+                    <span class="tag">Dart</span>
+                    <span class="tag">UI/UX</span>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <h2>BACKEND & BOTS</h2>
+                <p>Designing robust automated logic and dynamic web scripts. Building everything from QR-based attendance APIs to fully featured Telegram communities.</p>
+                <div class="tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">PHP</span>
+                    <span class="tag">C</span>
+                    <span class="tag">Telegram API</span>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 
-    <script>
-        // --- 1. The Parallax Mouse Tracking Logic ---
-        document.addEventListener('mousemove', (e) => {
-            // Calculate a number between -1 and 1 based on mouse position
-            const xOffset = (e.clientX / window.innerWidth - 0.5) * 2;
-            const yOffset = (e.clientY / window.innerHeight - 0.5) * 2;
-
-            // Send those numbers to our CSS variables!
-            document.documentElement.style.setProperty('--mouse-x', xOffset);
-            document.documentElement.style.setProperty('--mouse-y', yOffset);
-        });
-
-        // --- 2. The Pop-up Window Logic ---
-        const laptop = document.getElementById('laptop-trigger');
-        const osModal = document.getElementById('os-modal');
-        const closeBtn = document.getElementById('close-btn');
-
-        laptop.addEventListener('click', () => {
-            osModal.classList.add('active');
-        });
-
-        closeBtn.addEventListener('click', () => {
-            osModal.classList.remove('active');
-        });
-    </script>
 </body>
 </html>
