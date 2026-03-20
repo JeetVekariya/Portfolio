@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Workspace</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="room-scene" class="scene">
+        <div class="desk">
+            <div class="laptop" id="laptop-trigger">
+                <div class="screen-glow"></div>
+                <div class="tooltip">Enter Workspace</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="os-modal" class="hidden">
+        <div class="os-window">
+            <div class="window-header">
+                <div class="dot red" id="close-btn"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+                <div class="title">Developer_OS</div>
+            </div>
+            
+            <div class="folder-grid">
+                <div class="folder">📁<span>Jarvis_Bot</span></div>
+                <div class="folder">📁<span>QR_Attendance</span></div>
+                <div class="folder">📁<span>Call_Handler</span></div>
+                <div class="folder">📁<span>Set_Payment_QR</span></div>
+                <div class="folder">📁<span>Logic_Lads</span></div>
+                <div class="folder">📁<span>PHP_Scripts</span></div>
+                <div class="folder">📁<span>C_Programs</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
